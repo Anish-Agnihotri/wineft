@@ -33,10 +33,13 @@ export default function Bottle({
 
   return (
     <div className={styles.bottle}>
+      {/* Bottle image */}
       <img
         src={`https://avatars.dicebear.com/api/jdenticon/${appearance}.svg?b=%237b0041&w=80&h=80`}
         alt="Bottle"
       />
+
+      {/* Bottle owner */}
       <h3>
         Bottle by{" "}
         <a
@@ -47,11 +50,15 @@ export default function Bottle({
           {owner.substr(0, 5) + "..." + owner.slice(owner.length - 5)}
         </a>
       </h3>
+
+      {/* Bottle transfer statistics */}
       <p>Transferred {numTransfers} time(s).</p>
       <p>
         Transfer available {dayjs(parseInt(nextTransfer) * 1000).fromNow()}.
       </p>
+
       {address && address == owner ? (
+        // If bottle owner, display transfer fields
         <>
           <input
             type="text"
@@ -59,7 +66,7 @@ export default function Bottle({
             onChange={(e) => setTo(e.target.value)}
             placeholder="0x00000"
           />
-          <button onClick={transferWithLoading}>
+          <button onClick={transferWithLoading} disabled={loading}>
             {loading
               ? "Transferring..."
               : to !== ""

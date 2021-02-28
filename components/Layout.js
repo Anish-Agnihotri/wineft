@@ -1,19 +1,23 @@
-import { data } from "containers";
-import Head from "next/head";
-import styles from "styles/Layout.module.scss";
+import Head from "next/head"; // Meta
+import { data } from "containers"; // Global state
+import styles from "styles/Layout.module.scss"; // Component styles
 
 export default function Layout({ children }) {
   return (
     <div className={styles.layout}>
+      {/* Metadata */}
       <Meta />
 
+      {/* Header */}
       <Header />
 
+      {/* Content container encompassing children */}
       <div className={styles.layout__content}>{children}</div>
     </div>
   );
 }
 
+// Meta content
 function Meta() {
   return (
     <Head>
@@ -47,16 +51,21 @@ function Meta() {
   );
 }
 
+// Header
 function Header() {
-  const { lock, unlock, address } = data.useContainer();
+  const { lock, unlock, address } = data.useContainer(); // Global state
 
   return (
     <div className={styles.layout__header}>
+      {/* Logo */}
       <div>
         <img src="/logo.png" alt="WineFT logo" />
       </div>
+
+      {/* Authenticate */}
       <div>
         {address ? (
+          // If authenticated, display disconnect button
           <button onClick={lock}>
             <span>
               {address.substr(0, 5) + "..." + address.slice(address.length - 5)}
@@ -64,6 +73,7 @@ function Header() {
             <img src="/logout.svg" alt="Logout" />
           </button>
         ) : (
+          // Else display connect button
           <button onClick={unlock}>Connect Wallet</button>
         )}
       </div>

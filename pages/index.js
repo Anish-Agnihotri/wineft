@@ -1,12 +1,11 @@
-import Bottle from "components/Bottle";
-import Layout from "components/Layout";
-import { data } from "containers";
-import styles from "styles/Home.module.scss";
-import { useState } from "react";
-import Loader from "react-loader-spinner";
+import { useState } from "react"; // State management
+import { data } from "containers"; // Global state
+import Bottle from "components/Bottle"; // Bottle component
+import Layout from "components/Layout"; // Layout wrapper
+import Loader from "react-loader-spinner"; // Loading Spinner
+import styles from "styles/Home.module.scss"; // Component styles
 
 export default function Home() {
-  const [localLoading, setLocalLoading] = useState(false);
   const {
     mint,
     address,
@@ -14,31 +13,45 @@ export default function Home() {
     loading,
     bottles,
     mintCost,
-  } = data.useContainer();
+  } = data.useContainer(); // Global state
+  const [localLoading, setLocalLoading] = useState(false); // Local loading state
 
+  /**
+   * Mint new NFT with loading
+   */
   async function mintWithLoading() {
-    setLocalLoading(true);
+    setLocalLoading(true); // Toggle loading
+
     try {
+      // Mint
       await mint();
     } catch (error) {
       console.error(error);
     }
-    setLocalLoading(false);
+
+    setLocalLoading(false); // Toggle loading
   }
 
+  /**
+   * Unlock wallet with loading
+   */
   async function unlockWithLoading() {
-    setLocalLoading(true);
+    setLocalLoading(true); // Toggle loading
+
     try {
+      // Unlock
       await unlock();
     } catch (error) {
       console.error(error);
     }
-    setLocalLoading(false);
+
+    setLocalLoading(false); // Toggle loading
   }
 
   return (
     <Layout>
       <div className={styles.home}>
+        {/* Home: description */}
         <div className={styles.home__description}>
           <p>It's like Wine, but as a fungible token, and it ages.</p>
           <ul>
@@ -77,25 +90,30 @@ export default function Home() {
           </p>
         </div>
 
+        {/* Home: Mint */}
         <div className={styles.home__mint}>
           <h3>Mint a WineFT</h3>
           <div>
             {!loading ? (
+              // If not loading, display mint
               <>
                 <p>
                   Spend <span>{mintCost} ether</span> to mint a WineFT?
                 </p>
                 {!address ? (
+                  // If not authenticated, display unlock button
                   <button onClick={unlockWithLoading}>
                     {localLoading ? "Connecting..." : "Connect Wallet"}
                   </button>
                 ) : (
+                  // Else, display mint button
                   <button onClick={mintWithLoading}>
                     {localLoading ? "Minting..." : "Let's sip!"}
                   </button>
                 )}
               </>
             ) : (
+              // Else, if loading, display loader
               <div className={styles.home__loading}>
                 <Loader type="Circles" color="#700940" height={50} width={50} />
               </div>
@@ -103,16 +121,20 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Home: Existing minted NFTs */}
         <div className={styles.home__existing}>
           <h3>Ageing bottles</h3>
 
           {!loading ? (
+            // If not loading
             <div className={styles.home__existing_bottles}>
               {bottles.map((bottle, i) => {
+                // Loop over each bottle in bottles and render
                 return <Bottle key={i} bottle={bottle} />;
               })}
             </div>
           ) : (
+            // Else, if loading, display loader
             <div className={styles.home__loading}>
               <Loader type="Circles" color="#700940" height={50} width={50} />
             </div>
