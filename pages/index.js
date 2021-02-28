@@ -102,12 +102,12 @@ export default function Home() {
                 </p>
                 {!address ? (
                   // If not authenticated, display unlock button
-                  <button onClick={unlockWithLoading}>
+                  <button onClick={unlockWithLoading} disabled={localLoading}>
                     {localLoading ? "Connecting..." : "Connect Wallet"}
                   </button>
                 ) : (
                   // Else, display mint button
-                  <button onClick={mintWithLoading}>
+                  <button onClick={mintWithLoading} disabled={localLoading}>
                     {localLoading ? "Minting..." : "Let's sip!"}
                   </button>
                 )}
