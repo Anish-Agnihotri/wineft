@@ -1,65 +1,124 @@
-import Head from 'next/head'
-import styles from '../styles/Home.module.css'
+import Bottle from "components/Bottle";
+import Layout from "components/Layout";
+import { data } from "containers";
+import styles from "styles/Home.module.scss";
+import { useState } from "react";
+import Loader from "react-loader-spinner";
 
 export default function Home() {
+  const [localLoading, setLocalLoading] = useState(false);
+  const {
+    mint,
+    address,
+    unlock,
+    loading,
+    bottles,
+    mintCost,
+  } = data.useContainer();
+
+  async function mintWithLoading() {
+    setLocalLoading(true);
+    try {
+      await mint();
+    } catch (error) {
+      console.error(error);
+    }
+    setLocalLoading(false);
+  }
+
+  async function unlockWithLoading() {
+    setLocalLoading(true);
+    try {
+      await unlock();
+    } catch (error) {
+      console.error(error);
+    }
+    setLocalLoading(false);
+  }
+
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h3>Learn &rarr;</h3>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/master/examples"
-            className={styles.card}
-          >
-            <h3>Examples &rarr;</h3>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
+    <Layout>
+      <div className={styles.home}>
+        <div className={styles.home__description}>
+          <p>It's like Wine, but as a fungible token, and it ages.</p>
+          <ul>
+            <li>
+              <p>
+                Token minting cost increases exponentially, starting at{" "}
+                <span>0.01 ether</span>.
+              </p>
+            </li>
+            <li>
+              <p>
+                Tokens have a timelock to transfer, starting at{" "}
+                <span>1 hour</span>. Each time you transfer, the new owner has a
+                timelock of <span>numTransfers ** 2</span> hours (1, 4, 9, ...).
+              </p>
+            </li>
+          </ul>
+          <p>
+            Deployed on Arbitrum;{" "}
+            <a
+              href="https://developer.offchainlabs.com/docs/public_testnet"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              add their RPC
+            </a>{" "}
+            to play with the DApp.{" "}
+            <a
+              href="https://github.com/anish-agnihotri/wineft"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              GitHub Repo
+            </a>
+            .
+          </p>
         </div>
-      </main>
 
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
-        </a>
-      </footer>
-    </div>
-  )
+        <div className={styles.home__mint}>
+          <h3>Mint a WineFT</h3>
+          <div>
+            {!loading ? (
+              <>
+                <p>
+                  Spend <span>{mintCost} ether</span> to mint a WineFT?
+                </p>
+                {!address ? (
+                  <button onClick={unlockWithLoading}>
+                    {localLoading ? "Connecting..." : "Connect Wallet"}
+                  </button>
+                ) : (
+                  <button onClick={mintWithLoading}>
+                    {localLoading ? "Minting..." : "Let's sip!"}
+                  </button>
+                )}
+              </>
+            ) : (
+              <div className={styles.home__loading}>
+                <Loader type="Circles" color="#700940" height={50} width={50} />
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className={styles.home__existing}>
+          <h3>Ageing bottles</h3>
+
+          {!loading ? (
+            <div className={styles.home__existing_bottles}>
+              {bottles.map((bottle, i) => {
+                return <Bottle key={i} bottle={bottle} />;
+              })}
+            </div>
+          ) : (
+            <div className={styles.home__loading}>
+              <Loader type="Circles" color="#700940" height={50} width={50} />
+            </div>
+          )}
+        </div>
+      </div>
+    </Layout>
+  );
 }

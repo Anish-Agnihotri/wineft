@@ -1,0 +1,65 @@
+.bottle {
+  padding: 30px 30px 25px 30px;
+  width: calc(100% - 60px);
+  background-color: #fff;
+  border: 1px solid #e1d4d4;
+  border-radius: 8px;
+  text-align: center;
+  display: inline-block;
+
+  img {
+    width: 100px;
+    height: 100px;
+    clip-path: polygon(
+      44% 0,
+      56% 0,
+      56% 34%,
+      68% 44%,
+      68% 100%,
+      32% 100%,
+      32% 44%,
+      44% 34%
+    );
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+
+  h3 {
+    font-size: 20px;
+    margin: 0px;
+
+    a {
+      color: #700940;
+    }
+  }
+
+  p:last-of-type {
+    margin-block-end: 0px;
+  }
+
+  input {
+    display: block;
+    width: calc(100% - 5px);
+    margin-top: 30px;
+    font-size: 18px;
+    padding: 8px 0px 8px 5px;
+    border-radius: 5px;
+    border: 1px solid #e1d4d4;
+  }
+
+  input:focus {
+    outline: none;
+  }
+
+  button {
+    background-color: #700940;
+    color: white;
+    border: none;
+    font-weight: 500;
+    font-size: 15px;
+    padding: 10px 0px;
+    width: 100%;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+}

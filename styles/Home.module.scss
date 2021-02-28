@@ -1,0 +1,80 @@
+.home__description {
+  p {
+    font-size: 18px;
+    line-height: 170%;
+    margin: 0px;
+    color: #5d4747;
+
+    a {
+      color: inherit;
+    }
+
+    a:hover {
+      opacity: 0.7;
+    }
+  }
+
+  span {
+    background-color: #f7eaf1;
+    padding: 2px 5px;
+    border-radius: 5px;
+  }
+}
+
+.home__mint {
+  margin-top: 50px;
+
+  > div {
+    padding: 30px 30px 25px 30px;
+    width: calc(100% - 60px);
+    background-color: #fff;
+    border: 1px solid #e1d4d4;
+    border-radius: 8px;
+    text-align: center;
+
+    p {
+      font-weight: 500;
+      margin: 0px;
+
+      span {
+        background-color: #f7eaf1;
+        padding: 2px 5px;
+        border-radius: 5px;
+      }
+    }
+
+    button {
+      background-color: #700940;
+      color: white;
+      border: none;
+      font-weight: 500;
+      font-size: 15px;
+      padding: 10px 15px;
+      border-radius: 25px;
+      margin-top: 20px;
+    }
+  }
+}
+
+.home__existing {
+  margin-top: 50px;
+
+  .home__existing_bottles {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0px, 1fr));
+    grid-auto-rows: 1fr;
+    gap: 30px 30px;
+  }
+}
+
+.home__loading {
+  text-align: center;
+}
+
+@media screen and (max-width: 750px) {
+  .home__existing {
+    .home__existing_bottles {
+      grid-template-columns: repeat(1, minmax(0px, 1fr));
+    }
+  }
+}
